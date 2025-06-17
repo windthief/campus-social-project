@@ -14,45 +14,50 @@
                 <a href="#" class="logo">校话</a>
             </div>
             <div class="header-center">
+                <button id="theme-toggle" class="theme-toggle" aria-label="切换主题">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
                 <div class="search-box">
                     <input type="text" placeholder="搜索">
                     <button aria-label="搜索"><i class="fas fa-search"></i></button>
                 </div>
             </div>
             <div class="header-right">
-                <div id="notLoggedIn">
-                    <button class="text-btn"><i class="fas fa-sign-in-alt"></i>登录</button>
-                </div>
-                <div id="loggedIn" style="display: none;">
-                    <div class="user-info">
-                        <img src="https://picsum.photos/200" alt="用户头像" class="user-avatar">
-                        <div class="user-menu">
-                            <div class="user-stats">
-                                <div class="stat-item">
-                                    <span class="stat-label">关注</span>
-                                    <span class="stat-value">128</span>
+                <div class="header-actions">
+                    <div id="notLoggedIn">
+                        <a href="" class="text-btn"><i class="fas fa-sign-in-alt"></i>登录</a>
+                    </div>
+                    <div id="loggedIn" style="display: none;">
+                        <div class="user-info">
+                            <img src="https://picsum.photos/200" alt="用户头像" class="user-avatar">
+                            <div class="user-menu">
+                                <div class="user-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">关注</span>
+                                        <span class="stat-value">128</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">粉丝</span>
+                                        <span class="stat-value">256</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">动态</span>
+                                        <span class="stat-value">64</span>
+                                    </div>
                                 </div>
-                                <div class="stat-item">
-                                    <span class="stat-label">粉丝</span>
-                                    <span class="stat-value">256</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-label">动态</span>
-                                    <span class="stat-value">64</span>
-                                </div>
+                                <a href="#" class="menu-item">
+                                    <i class="fas fa-user"></i>
+                                    个人中心
+                                </a>
+                                <a href="#" class="menu-item">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    退出登录
+                                </a>
                             </div>
-                            <a href="#" class="menu-item">
-                                <i class="fas fa-user"></i>
-                                个人中心
-                            </a>
-                            <a href="#" class="menu-item">
-                                <i class="fas fa-sign-out-alt"></i>
-                                退出登录
-                            </a>
                         </div>
                     </div>
-                </div>
-                <div class="header-actions">
+                    <button class="text-btn"><i class="fas fa-envelope"></i>私信</button>
                     <button class="text-btn"><i class="fas fa-comment"></i>消息</button>
                     <button class="text-btn"><i class="fas fa-history"></i>历史</button>
                 </div>
