@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 荔枝校园</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">♥</div>
+                    <div class="logo-text">荔枝校园</div>
+                </a>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="#">热点</a></li>
+                        <li><a href="#">关注</a></li>
+                        <li><a href="#">小组</a></li>
+                        <li><a href="#">活动</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="搜索用户、话题..." class="search-input">
+                    </div>
+                    <button class="btn btn-icon" id="theme-toggle">🌙</button>
+                    <a href="login.html" class="btn btn-outline">登录</a>
+                    <a href="register.html" class="btn btn-primary">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <h1 class="page-title">📋 校园新鲜事</h1>
+            <!-- 跑马灯最新通知 -->
+            <div class="marquee">
+                <div class="marquee-content">
+                    🎉 新功能上线！现在可以设置动态可见范围了 ● 校园摄影大赛报名开始，奖品丰厚 ● 计算机学院明日举办AI前沿讲座 ● 图书馆顶楼自习区现已开放
+                </div>
+            </div>
+            <div class="feed-controls">
+                <div class="feed-tabs">
+                    <div class="feed-tab active">全部动态</div>
+                    <div class="feed-tab">热点推荐</div>
+                    <div class="feed-tab">好友动态</div>
+                    <div class="feed-tab">话题精选</div>
+                </div>
+
+                <a href="post.html" class="btn btn-primary" style="margin-left: auto;">
+                    <span>✏️ 发布动态</span>
+                </a>
+            </div>
+
+            <div class="feed-container">
+                <div class="feed-left">
+                    <div class="dynamic-card">
+                        <div class="dynamic-header">
+                            <div class="user-avatar">张</div>
+                            <div class="user-info">
+                                <div class="username">张同学</div>
+                                <div class="timestamp">2小时前 · 计算机学院</div>
+                            </div>
+                        </div>
+                        <div class="dynamic-content">
+                            <div class="dynamic-text">
+                                终于完成了数据结构的课程设计！三个星期的努力没有白费。感谢一起熬夜奋斗的舍友们，我们一定会取得好成绩💪🏻
+                                <span class="hashtag">#学习日常 #课程设计</span>
+                            </div>
+                            <div class="dynamic-image">
+                                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'%3E%3Crect fill='%23FFCCD5' width='640' height='480'/%3E%3Ctext fill='%23E6004C' font-family='Arial' font-size='30' x='280' y='240'%3E课程设计展示%3C/text%3E%3C/svg%3E"
+                                    alt="课程设计">
+                            </div>
+                        </div>
+                        <div class="dynamic-actions">
+                            <div class="action-btn like-btn">
+                                <span>👍</span>
+                                <span class="count">86</span>
+                            </div>
+                            <div class="action-btn">
+                                <span>💬</span>
+                                <span class="count">24</span>
+                            </div>
+                            <div class="action-btn">
+                                <span>↗️</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dynamic-card">
+                        <div class="dynamic-header">
+                            <div class="user-avatar">李</div>
+                            <div class="user-info">
+                                <div class="username">李同学</div>
+                                <div class="timestamp">8小时前 · 外国语学院</div>
+                            </div>
+                        </div>
+                        <div class="dynamic-content">
+                            <div class="dynamic-text">
+                                发现了一个超美的自习地点！学校新建的图书馆顶楼，俯瞰整个校园，学习氛围也超好，推荐给大家！📚
+                            </div>
+                            <div class="dynamic-image">
+                                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'%3E%3Crect fill='%23B5EAD7' width='640' height='480'/%3E%3Ctext fill='%2300713E' font-family='Arial' font-size='30' x='280' y='240'%3E图书馆风景%3C/text%3E%3C/svg%3E"
+                                    alt="图书馆风景">
+                            </div>
+                        </div>
+                        <div class="dynamic-actions">
+                            <div class="action-btn like-btn">
+                                <span>👍</span>
+                                <span class="count">156</span>
+                            </div>
+                            <div class="action-btn">
+                                <span>💬</span>
+                                <span class="count">42</span>
+                            </div>
+                            <div class="action-btn">
+                                <span>↗️</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dynamic-card">
+                        <div class="dynamic-header">
+                            <div class="user-avatar">王</div>
+                            <div class="user-info">
+                                <div class="username">王学长</div>
+                                <div class="timestamp">昨天 · 经济管理学院</div>
+                            </div>
+                        </div>
+                        <div class="dynamic-content">
+                            <div class="dynamic-text">
+                                📢【讲座预告】本周五晚7点，邀请到了腾讯资深产品经理@刘老师 来我校分享产品设计经验，地点：大礼堂A103。本次讲座计入综合素质学分，欢迎感兴趣的学弟学妹来参加！
+                                <span class="hashtag">#讲座 #产品设计</span>
+                            </div>
+                        </div>
+                        <div class="dynamic-actions">
+                            <div class="action-btn like-btn">
+                                <span>👍</span>
+                                <span class="count">98</span>
+                            </div>
+                            <div class="action-btn">
+                                <span>💬</span>
+                                <span class="count">35</span>
+                            </div>
+                            <div class="action-btn">
+                                <span>⭐️</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feed-right">
+                    <div class="sidebar-card">
+                        <div class="sidebar-title">👤 我的信息</div>
+                        <div class="user-card">
+                            <div class="user-avatar-large">访</div>
+                            <h3 class="user-name">游客用户</h3>
+                            <p class="user-status">点击登录获取完整体验</p>
+                            <a href="login.html" class="btn btn-primary"
+                                style="width: 100%; margin-top: 15px;">登录/注册</a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <div class="sidebar-title">🔥 热点话题</div>
+                        <ul class="trending-list">
+                            <li class="trending-item">
+                                <div class="trending-content">#校园春景摄影大赛</div>
+                                <div class="trending-stats">
+                                    <span>🔥 热门</span>
+                                    <span>💬 1568</span>
+                                </div>
+                            </li>
+                            <li class="trending-item">
+                                <div class="trending-content">#计算机学院课程设计互助</div>
+                                <div class="trending-stats">
+                                    <span>📚 学习</span>
+                                    <span>💬 892</span>
+                                </div>
+                            </li>
+                            <li class="trending-item">
+                                <div class="trending-content">学校食堂新品试吃体验！</div>
+                                <div class="trending-stats">
+                                    <span>😋 美食</span>
+                                    <span>👍 623</span>
+                                </div>
+                            </li>
+                            <li class="trending-item">
+                                <div class="trending-content">校篮球队成功晋级全国大学生篮球联赛区域决赛</div>
+                                <div class="trending-stats">
+                                    <span>🏀 体育</span>
+                                    <span>↗️ 412</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>关于我们</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">平台介绍</a></li>
+                        <li><a href="#">团队介绍</a></li>
+                        <li><a href="#">加入我们</a></li>
+                        <li><a href="#">联系方式</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>使用帮助</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">新手指南</a></li>
+                        <li><a href="#">常见问题</a></li>
+                        <li><a href="#">用户协议</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>校园服务</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">学术活动</a></li>
+                        <li><a href="#">社团组织</a></li>
+                        <li><a href="#">就业指导</a></li>
+                        <li><a href="#">校园资讯</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>关注我们</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">官方微信</a></li>
+                        <li><a href="#">官方微博</a></li>
+                        <li><a href="#">小红书</a></li>
+                        <li><a href="#">Bilibili</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2025 荔枝校园社交平台 | 让每一位校园人的生活更精彩
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/index.js"></script>
+</body>
+
+</html>

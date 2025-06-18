@@ -1,0 +1,82 @@
+// 公共JavaScript函数
+document.addEventListener('DOMContentLoaded', function () {
+    // 设置导航栏活动状态
+    const currentPage = window.location.pathname.split('/').pop();
+    const navLinks = document.querySelectorAll('nav a');
+
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href').split('/').pop();
+        if (currentPage === linkPage) {
+            link.classList.add('active');
+        }
+    });
+
+    // 登录/注册状态切换
+    if (document.querySelector('.auth-switch')) {
+        const authSwitch = document.querySelector('.auth-switch a');
+        authSwitch.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('login-form').classList.toggle('hidden');
+            document.getElementById('register-form').classList.toggle('hidden');
+
+            if (this.textContent.includes('注册')) {
+                this.textContent = '已有账号？立即登录';
+            } else {
+                this.textContent = '没有账号？立即注册';
+            }
+        });
+    }
+
+    // 处理用户头像显示
+    const userAvatars = document.querySelectorAll('.user-avatar');
+    userAvatars.forEach(avatar => {
+        const name = avatar.textContent || 'User';
+        avatar.textContent = name.charAt(0).toUpperCase();
+        avatar.style.backgroundColor = generateColorFromInitials(name);
+    });
+
+    // 点赞效果
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const isLiked = this.classList.toggle('liked');
+            let countElement = this.querySelector('.count');
+            let count = parseInt(countElement.textContent) || 0;
+
+            if (isLiked) {
+                count++;
+            } else {
+                count--;
+            }
+
+            countElement.textContent = count;
+        });
+    });
+});
+
+function generateColorFromInitials(name) {
+    const colors = [
+        '#FFCCD5', '#FFB8D9', '#FF9AA2', '#FFB7B2', '#FFDAC1',
+        '#E2F0CB', '#B5EAD7', '#C7CEEA', '#B8E0D2', '#D4A5A5'
+    ];
+    const charCode = name.charCodeAt(0);
+    return colors[charCode % colors.length];
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}

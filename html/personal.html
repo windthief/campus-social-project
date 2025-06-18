@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的主页 - 荔枝校园</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">♥</div>
+                    <div class="logo-text">荔枝校园</div>
+                </a>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="#">动态</a></li>
+                        <li><a href="#">关注</a></li>
+                        <li><a href="#">消息</a></li>
+                        <li><a href="#">设置</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="搜索用户、话题..." class="search-input">
+                    </div>
+                    <button class="btn btn-outline" id="notification-btn">🔔</button>
+                    <div class="user-menu">
+                        <div class="user-avatar">张</div>
+                        <span class="username">张同学</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="profile-header">
+                <div class="profile-avatar">张</div>
+                <div class="profile-info">
+                    <div class="profile-name">张同学</div>
+                    <div class="profile-id">学号: 2020123456</div>
+                    <div class="profile-bio">计算机科学与技术专业 | 大三学生 | 喜欢编程和摄影</div>
+                    <div class="profile-tags">
+                        <span class="tag">#编程爱好者</span>
+                        <span class="tag">#摄影</span>
+                        <span class="tag">#音乐</span>
+                        <span class="tag">#篮球</span>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">128</div>
+                            <div class="stat-label">动态</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">346</div>
+                            <div class="stat-label">关注</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">521</div>
+                            <div class="stat-label">粉丝</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2.1K</div>
+                            <div class="stat-label">获赞</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <a href="#" class="btn btn-outline">编辑资料</a>
+                    <a href="post.html" class="btn btn-primary">发布动态</a>
+                </div>
+            </div>
+
+            <div class="profile-tabs">
+                <div class="profile-tab active">我的动态</div>
+                <div class="profile-tab">相册</div>
+                <div class="profile-tab">收藏</div>
+                <div class="profile-tab">关注</div>
+                <div class="profile-tab">粉丝</div>
+            </div>
+
+            <div class="feed-container">
+                <div class="feed-left">
+                    <!-- 动态卡片 - 内容与首页类似 -->
+                </div>
+
+                <div class="feed-right">
+                    <div class="sidebar-card">
+                        <div class="sidebar-title">📅 活动日历</div>
+                        <div class="calendar"></div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <div class="sidebar-title">🏆 我的成就</div>
+                        <div class="achievements">
+                            <div class="achievement">
+                                <div class="achievement-icon">🏅</div>
+                                <div class="achievement-info">
+                                    <div class="achievement-title">活跃之星</div>
+                                    <div class="achievement-description">连续7天发布动态</div>
+                                </div>
+                            </div>
+                            <div class="achievement">
+                                <div class="achievement-icon">⭐</div>
+                                <div class="achievement-info">
+                                    <div class="achievement-title">社交达人</div>
+                                    <div class="achievement-description">关注数超过300</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <!-- 页脚内容同首页 -->
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - 荔枝校园</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <!-- 导航栏不变 -->
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <h1 class="page-title">👮‍♂️ 用户管理</h1>
+
+            <div class="admin-controls">
+                <div class="search-container">
+                    <input type="text" placeholder="搜索用户..." class="search-input">
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+                <button class="btn btn-secondary" id="refresh-users">刷新</button>
+            </div>
+
+            <div class="user-table-container">
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>昵称</th>
+                            <th>学院</th>
+                            <th>注册时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-body">
+                        <!-- 用户数据由JS填充 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚不变 -->
+
+    <script src="js/main.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
