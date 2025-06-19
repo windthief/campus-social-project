@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // 切换标签页
     const feedTabs = document.querySelectorAll('.feed-tab');
     let currentTab = 0; // 0:全部动态 1:热点推荐 2:好友动态 3:话题精选
+    // 记录原始顺序
+    const originalList = window.dynamicList ? window.dynamicList.slice() : [];
     function renderDynamicList(tabIdx = 0) {
         const feedLeft = document.getElementById('feed-left');
         if (!feedLeft || !window.dynamicList) return;
@@ -72,14 +74,43 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-    feedTabs.forEach((tab, idx) => {
-        tab.addEventListener('click', function () {
+    // feed-tab点击事件分开处理
+    if (feedTabs[0]) {
+        feedTabs[0].addEventListener('click', function () {
             feedTabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
-            currentTab = idx;
+            window.dynamicList = originalList.slice();
+            currentTab = 0;
             renderDynamicList(currentTab);
         });
-    });
+    }
+    if (feedTabs[1]) {
+        feedTabs[1].addEventListener('click', function () {
+            feedTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            window.dynamicList = originalList.slice().sort((a, b) => b.like - a.like);
+            currentTab = 1;
+            renderDynamicList(currentTab);
+        });
+    }
+    if (feedTabs[2]) {
+        feedTabs[2].addEventListener('click', function () {
+            feedTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            window.dynamicList = originalList.slice();
+            currentTab = 2;
+            renderDynamicList(currentTab);
+        });
+    }
+    if (feedTabs[3]) {
+        feedTabs[3].addEventListener('click', function () {
+            feedTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            window.dynamicList = originalList.slice();
+            currentTab = 3;
+            renderDynamicList(currentTab);
+        });
+    }
     renderDynamicList(currentTab);
 
     // 动态图片懒加载
@@ -234,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ================== 动态数据与渲染 ==================
-    // 示例动态数据（可后续替换为后端/本地存储数据）
+
     const dynamicList = [
         {
             user: { name: '张同学', avatar: '张', college: '计算机学院' },
