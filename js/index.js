@@ -165,6 +165,85 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 1500);
         });
     }
+
+    // ================== 动态数据与渲染 ==================
+    // 示例动态数据（可后续替换为后端/本地存储数据）
+    const dynamicList = [
+        {
+            user: { name: '张同学', avatar: '张', college: '计算机学院' },
+            time: '2小时前',
+            text: '终于完成了数据结构的课程设计！三个星期的努力没有白费。感谢一起熬夜奋斗的舍友们，我们一定会取得好成绩💪🏻',
+            hashtag: '#学习日常 #课程设计',
+            image: "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'%3E%3Crect fill='%23FFCCD5' width='640' height='480'/%3E%3Ctext fill='%23E6004C' font-family='Arial' font-size='30' x='280' y='240'%3E课程设计展示%3C/text%3E%3C/svg%3E",
+            like: 86,
+            comment: 24,
+            extra: '↗️'
+        },
+        {
+            user: { name: '李同学', avatar: '李', college: '外国语学院' },
+            time: '8小时前',
+            text: '发现了一个超美的自习地点！学校新建的图书馆顶楼，俯瞰整个校园，学习氛围也超好，推荐给大家！📚',
+            hashtag: '',
+            image: "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'%3E%3Crect fill='%23B5EAD7' width='640' height='480'/%3E%3Ctext fill='%2300713E' font-family='Arial' font-size='30' x='280' y='240'%3E图书馆风景%3C/text%3E%3C/svg%3E",
+            like: 156,
+            comment: 42,
+            extra: '↗️'
+        },
+        {
+            user: { name: '王学长', avatar: '王', college: '经济管理学院' },
+            time: '昨天',
+            text: '📢【讲座预告】本周五晚7点，邀请到了腾讯资深产品经理@刘老师 来我校分享产品设计经验，地点：大礼堂A103。本次讲座计入综合素质学分，欢迎感兴趣的学弟学妹来参加！',
+            hashtag: '#讲座 #产品设计',
+            image: '',
+            like: 98,
+            comment: 35,
+            extra: '⭐️'
+        }
+    ];
+
+    function renderDynamicList() {
+        const feedLeft = document.getElementById('feed-left');
+        if (!feedLeft || !window.dynamicList) return;
+        feedLeft.innerHTML = window.dynamicList.map(item => `
+            <div class="dynamic-card" data-id="${item.id}" style="cursor:pointer;">
+                <div class="dynamic-header">
+                    <div class="user-avatar">${item.user.avatar}</div>
+                    <div class="user-info">
+                        <div class="username">${item.user.name}</div>
+                        <div class="timestamp">${item.time} · ${item.user.college}</div>
+                    </div>
+                </div>
+                <div class="dynamic-content">
+                    <div class="dynamic-text">
+                        ${item.text}
+                        ${item.hashtag ? `<span class='hashtag'>${item.hashtag}</span>` : ''}
+                    </div>
+                    ${item.image ? `<div class='dynamic-image'><img src='${item.image}' alt='动态图片'></div>` : ''}
+                </div>
+                <div class="dynamic-actions">
+                    <div class="action-btn like-btn">
+                        <span>👍</span>
+                        <span class="count">${item.like}</span>
+                    </div>
+                    <div class="action-btn">
+                        <span>💬</span>
+                        <span class="count">${item.comment}</span>
+                    </div>
+                    <div class="action-btn">
+                        <span>↗️</span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        // 添加点击事件
+        feedLeft.querySelectorAll('.dynamic-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                window.location.href = `dynamic_detail.html?id=${id}`;
+            });
+        });
+    }
+    renderDynamicList();
 });
 
 

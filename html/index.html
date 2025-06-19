@@ -63,100 +63,8 @@
             </div>
 
             <div class="feed-container">
-                <div class="feed-left">
-                    <div class="dynamic-card">
-                        <div class="dynamic-header">
-                            <div class="user-avatar">张</div>
-                            <div class="user-info">
-                                <div class="username">张同学</div>
-                                <div class="timestamp">2小时前 · 计算机学院</div>
-                            </div>
-                        </div>
-                        <div class="dynamic-content">
-                            <div class="dynamic-text">
-                                终于完成了数据结构的课程设计！三个星期的努力没有白费。感谢一起熬夜奋斗的舍友们，我们一定会取得好成绩💪🏻
-                                <span class="hashtag">#学习日常 #课程设计</span>
-                            </div>
-                            <div class="dynamic-image">
-                                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'%3E%3Crect fill='%23FFCCD5' width='640' height='480'/%3E%3Ctext fill='%23E6004C' font-family='Arial' font-size='30' x='280' y='240'%3E课程设计展示%3C/text%3E%3C/svg%3E"
-                                    alt="课程设计">
-                            </div>
-                        </div>
-                        <div class="dynamic-actions">
-                            <div class="action-btn like-btn">
-                                <span>👍</span>
-                                <span class="count">86</span>
-                            </div>
-                            <div class="action-btn">
-                                <span>💬</span>
-                                <span class="count">24</span>
-                            </div>
-                            <div class="action-btn">
-                                <span>↗️</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="dynamic-card">
-                        <div class="dynamic-header">
-                            <div class="user-avatar">李</div>
-                            <div class="user-info">
-                                <div class="username">李同学</div>
-                                <div class="timestamp">8小时前 · 外国语学院</div>
-                            </div>
-                        </div>
-                        <div class="dynamic-content">
-                            <div class="dynamic-text">
-                                发现了一个超美的自习地点！学校新建的图书馆顶楼，俯瞰整个校园，学习氛围也超好，推荐给大家！📚
-                            </div>
-                            <div class="dynamic-image">
-                                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'%3E%3Crect fill='%23B5EAD7' width='640' height='480'/%3E%3Ctext fill='%2300713E' font-family='Arial' font-size='30' x='280' y='240'%3E图书馆风景%3C/text%3E%3C/svg%3E"
-                                    alt="图书馆风景">
-                            </div>
-                        </div>
-                        <div class="dynamic-actions">
-                            <div class="action-btn like-btn">
-                                <span>👍</span>
-                                <span class="count">156</span>
-                            </div>
-                            <div class="action-btn">
-                                <span>💬</span>
-                                <span class="count">42</span>
-                            </div>
-                            <div class="action-btn">
-                                <span>↗️</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="dynamic-card">
-                        <div class="dynamic-header">
-                            <div class="user-avatar">王</div>
-                            <div class="user-info">
-                                <div class="username">王学长</div>
-                                <div class="timestamp">昨天 · 经济管理学院</div>
-                            </div>
-                        </div>
-                        <div class="dynamic-content">
-                            <div class="dynamic-text">
-                                📢【讲座预告】本周五晚7点，邀请到了腾讯资深产品经理@刘老师 来我校分享产品设计经验，地点：大礼堂A103。本次讲座计入综合素质学分，欢迎感兴趣的学弟学妹来参加！
-                                <span class="hashtag">#讲座 #产品设计</span>
-                            </div>
-                        </div>
-                        <div class="dynamic-actions">
-                            <div class="action-btn like-btn">
-                                <span>👍</span>
-                                <span class="count">98</span>
-                            </div>
-                            <div class="action-btn">
-                                <span>💬</span>
-                                <span class="count">35</span>
-                            </div>
-                            <div class="action-btn">
-                                <span>⭐️</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="feed-left" id="feed-left">
+                    <!-- 动态内容将由js渲染插入 -->
                 </div>
 
                 <div class="feed-right">
@@ -255,6 +163,7 @@
         </div>
     </footer>
 
+    <script src="../js/dynamic_data.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/index.js"></script>
 </body>
