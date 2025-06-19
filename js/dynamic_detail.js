@@ -8,7 +8,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const dynamic = window.dynamicList ? window.dynamicList.find(d => d.id === dynamicId) : null;
     if (!dynamic) return;
 
+    // 本地存储点赞状态和数量
+    function getLikeState(id) {
+        const data = JSON.parse(localStorage.getItem('likeState') || '{}');
+        return data[id] || { liked: false, like: dynamic.like };
+    }
+    function setLikeState(id, liked, like) {
+        const data = JSON.parse(localStorage.getItem('likeState') || '{}');
+        data[id] = { liked, like };
+        localStorage.setItem('likeState', JSON.stringify(data));
+    }
     // 渲染动态详情
+    const likeState = getLikeState(dynamic.id);
     const detailCard = document.querySelector('.dynamic-detail-card');
     if (detailCard) {
         detailCard.innerHTML = `
@@ -33,7 +44,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="stat-item"><span>📍</span> ${dynamic.location || ''}</div>
                 </div>
                 <div class="dynamic-actions">
-                    <button class="action-btn like-btn"><span>👍</span><span class="count">${dynamic.like}</span></button>
+                    <button class="action-btn like-btn${likeState.liked ? ' liked' : ''}">
+                        <span class="like-icon">${likeState.liked ? `<svg viewBox='0 0 24 24' width='20' height='20' fill='#e6004c' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>` : `<svg viewBox='0 0 24 24' width='20' height='20' fill='none' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>`}</span>
+                        <span class="count">${likeState.like}</span>
+                    </button>
                     <button class="action-btn"><span>↗️</span> 转发</button>
                     <button class="action-btn"><span>⭐</span> 收藏</button>
                 </div>
@@ -121,6 +135,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 e.preventDefault();
                 commentBtn.click();
             }
+        });
+    }
+
+    // 点赞交互
+    const likeBtn = document.querySelector('.dynamic-detail-card .like-btn');
+    if (likeBtn) {
+        likeBtn.addEventListener('click', function() {
+            let state = getLikeState(dynamic.id);
+            state.liked = !state.liked;
+            state.like += state.liked ? 1 : -1;
+            setLikeState(dynamic.id, state.liked, state.like);
+            // 同步首页localStorage
+            const list = window.dynamicList;
+            if (list) {
+                const idx = list.findIndex(d => d.id === dynamic.id);
+                if (idx !== -1) {
+                    list[idx].liked = state.liked;
+                    list[idx].like = state.like;
+                }
+            }
+            // 重新渲染
+            detailCard.querySelector('.like-btn .count').textContent = state.like;
+            likeBtn.classList.toggle('liked', state.liked);
+            likeBtn.querySelector('.like-icon').innerHTML = state.liked ? `<svg viewBox='0 0 24 24' width='20' height='20' fill='#e6004c' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>` : `<svg viewBox='0 0 24 24' width='20' height='20' fill='none' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>`;
         });
     }
 });

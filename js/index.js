@@ -4,16 +4,83 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 切换标签页
     const feedTabs = document.querySelectorAll('.feed-tab');
-    feedTabs.forEach(tab => {
+    let currentTab = 0; // 0:全部动态 1:热点推荐 2:好友动态 3:话题精选
+    function renderDynamicList(tabIdx = 0) {
+        const feedLeft = document.getElementById('feed-left');
+        if (!feedLeft || !window.dynamicList) return;
+        let list = window.dynamicList.slice();
+        if (tabIdx === 1) {
+            // 热点推荐：按点赞数降序
+            list.sort((a, b) => b.like - a.like);
+        }
+        feedLeft.innerHTML = list.map(item => `
+            <div class="dynamic-card" data-id="${item.id}" style="cursor:pointer;">
+                <div class="dynamic-header">
+                    <div class="user-avatar">${item.user.avatar}</div>
+                    <div class="user-info">
+                        <div class="username">${item.user.name}</div>
+                        <div class="timestamp">${item.time} · ${item.user.college}</div>
+                    </div>
+                </div>
+                <div class="dynamic-content">
+                    <div class="dynamic-text">
+                        ${item.text}
+                        ${item.hashtag ? `<span class='hashtag'>${item.hashtag}</span>` : ''}
+                    </div>
+                    ${item.image ? `<div class='dynamic-image'><img src='${item.image}' alt='动态图片'></div>` : ''}
+                </div>
+                <div class="dynamic-actions">
+                    <div class="action-btn like-btn${item.liked ? ' liked' : ''}">
+                        <span class="like-icon">${item.liked ? `<svg viewBox='0 0 24 24' width='20' height='20' fill='#e6004c' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>` : `<svg viewBox='0 0 24 24' width='20' height='20' fill='none' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>`}</span>
+                        <span class="count">${item.like}</span>
+                    </div>
+                    <div class="action-btn">
+                        <span>💬</span>
+                        <span class="count">${item.comment}</span>
+                    </div>
+                    <div class="action-btn">
+                        <span>↗️</span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        // 添加点击事件
+        feedLeft.querySelectorAll('.dynamic-card').forEach((card, idx) => {
+            card.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                window.location.href = `dynamic_detail.html?id=${id}`;
+            });
+            // 阻止action-btn点击冒泡
+            card.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+            // 点赞交互
+            const likeBtn = card.querySelector('.like-btn');
+            if (likeBtn) {
+                likeBtn.addEventListener('click', function() {
+                    const item = window.dynamicList[idx];
+                    item.liked = !item.liked;
+                    item.like += item.liked ? 1 : -1;
+                    // 写入localStorage，保证详情页同步
+                    const likeState = JSON.parse(localStorage.getItem('likeState') || '{}');
+                    likeState[item.id] = { liked: item.liked, like: item.like };
+                    localStorage.setItem('likeState', JSON.stringify(likeState));
+                    renderDynamicList(currentTab);
+                });
+            }
+        });
+    }
+    feedTabs.forEach((tab, idx) => {
         tab.addEventListener('click', function () {
             feedTabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
-
-            // 这里应该切换内容区域的显示
-            // 目前只是模拟效果
-            console.log('切换到标签:', this.textContent);
+            currentTab = idx;
+            renderDynamicList(currentTab);
         });
     });
+    renderDynamicList(currentTab);
 
     // 动态图片懒加载
     const lazyImages = document.querySelectorAll('.dynamic-image img');
@@ -221,8 +288,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     ${item.image ? `<div class='dynamic-image'><img src='${item.image}' alt='动态图片'></div>` : ''}
                 </div>
                 <div class="dynamic-actions">
-                    <div class="action-btn like-btn">
-                        <span>👍</span>
+                    <div class="action-btn like-btn${item.liked ? ' liked' : ''}">
+                        <span class="like-icon">${item.liked ? `<svg viewBox='0 0 24 24' width='20' height='20' fill='#e6004c' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>` : `<svg viewBox='0 0 24 24' width='20' height='20' fill='none' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>`}</span>
                         <span class="count">${item.like}</span>
                     </div>
                     <div class="action-btn">
@@ -236,11 +303,31 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         `).join('');
         // 添加点击事件
-        feedLeft.querySelectorAll('.dynamic-card').forEach(card => {
+        feedLeft.querySelectorAll('.dynamic-card').forEach((card, idx) => {
             card.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
                 window.location.href = `dynamic_detail.html?id=${id}`;
             });
+            // 阻止action-btn点击冒泡
+            card.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+            // 点赞交互
+            const likeBtn = card.querySelector('.like-btn');
+            if (likeBtn) {
+                likeBtn.addEventListener('click', function() {
+                    const item = window.dynamicList[idx];
+                    item.liked = !item.liked;
+                    item.like += item.liked ? 1 : -1;
+                    // 写入localStorage，保证详情页同步
+                    const likeState = JSON.parse(localStorage.getItem('likeState') || '{}');
+                    likeState[item.id] = { liked: item.liked, like: item.like };
+                    localStorage.setItem('likeState', JSON.stringify(likeState));
+                    renderDynamicList();
+                });
+            }
         });
     }
     renderDynamicList();
