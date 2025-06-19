@@ -91,6 +91,24 @@ document.addEventListener('DOMContentLoaded', function () {
     const commentInput = document.querySelector('.comment-input');
     const commentBtn = document.querySelector('.comment-editor .btn');
 
+    // 评论功能权限控制
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+        if (commentInput) {
+            commentInput.disabled = true;
+            commentInput.placeholder = '请先登录后再评论';
+            commentInput.style.background = '#f5f5f5';
+            commentInput.style.cursor = 'not-allowed';
+        }
+        if (commentBtn) {
+            commentBtn.addEventListener('click', function () {
+                if (confirm('评论功能需要登录，是否前往登录？')) {
+                    window.location.href = 'login.html';
+                }
+            });
+        }
+    }
+
     if (commentBtn) {
         commentBtn.addEventListener('click', function () {
             const commentText = commentInput.value.trim();
@@ -161,4 +179,45 @@ document.addEventListener('DOMContentLoaded', function () {
             likeBtn.querySelector('.like-icon').innerHTML = state.liked ? `<svg viewBox='0 0 24 24' width='20' height='20' fill='#e6004c' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>` : `<svg viewBox='0 0 24 24' width='20' height='20' fill='none' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>`;
         });
     }
+
+    // 顶部登录/注册按钮切换
+    function renderHeaderAuthBtn() {
+        const headerActions = document.querySelector('.header-actions');
+        if (!headerActions) return;
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const userMenu = headerActions.querySelector('.user-menu');
+        if (!isLoggedIn) {
+            if (userMenu) userMenu.remove();
+            if (!headerActions.querySelector('.btn-outline.btn-login')) {
+                const loginA = document.createElement('a');
+                loginA.className = 'btn btn-outline btn-login';
+                loginA.href = 'login.html';
+                loginA.textContent = '登录';
+                headerActions.appendChild(loginA);
+            }
+            if (!headerActions.querySelector('.btn-primary.btn-register')) {
+                const regA = document.createElement('a');
+                regA.className = 'btn btn-primary btn-register';
+                regA.href = 'register.html';
+                regA.textContent = '注册';
+                headerActions.appendChild(regA);
+            }
+        } else {
+            // 已登录时显示大头像和用户名（样式与首页右侧一致）
+            if (userMenu) {
+                const user = JSON.parse(localStorage.getItem('currentUser'));
+                userMenu.innerHTML = `
+                    <div style="display:flex;align-items:center;gap:16px;">
+                        <div class="user-avatar-large" style="width:60px;height:60px;font-size:28px;margin:0;">${user && user.avatar ? user.avatar : '张'}</div>
+                        <span class="username" style="font-size:18px;font-weight:600;">${user && user.name ? user.name : '张同学'}</span>
+                    </div>
+                `;
+                userMenu.className = 'user-menu user-avatar-large-menu';
+                userMenu.style.display = 'flex';
+                userMenu.style.alignItems = 'center';
+                userMenu.style.justifyContent = 'center';
+            }
+        }
+    }
+    renderHeaderAuthBtn();
 });

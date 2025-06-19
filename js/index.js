@@ -121,7 +121,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     if (feedTabs[2]) {
-        feedTabs[2].addEventListener('click', function () {
+        feedTabs[2].addEventListener('click', function (e) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                if (confirm('该功能需要登录，是否前往登录？')) {
+                    window.location.href = 'login.html';
+                }
+                return;
+            }
             feedTabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
             window.dynamicList = fixedFriendList || [];
@@ -604,6 +611,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     localStorage.setItem('likeState', JSON.stringify(likeState));
                     renderTopicTab(list, tagHtml, hashtags);
                 });
+            }
+        });
+    }
+
+    // 发布按钮登录校验
+    const postBtn = document.querySelector('.feed-controls .btn-primary[href="post.html"]');
+    if (postBtn) {
+        postBtn.addEventListener('click', function(e) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                e.preventDefault();
+                if (confirm('发布动态需要登录，是否前往登录？')) {
+                    window.location.href = 'login.html';
+                }
             }
         });
     }
