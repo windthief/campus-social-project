@@ -7,6 +7,23 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentTab = 0; // 0:全部动态 1:热点推荐 2:好友动态 3:话题精选
     // 记录原始顺序
     const originalList = window.dynamicList ? window.dynamicList.slice() : [];
+    // 固定的好友动态数据
+    let fixedFriendList = null;
+    if (originalList.length > 0) {
+        if (originalList.length <= 3) {
+            fixedFriendList = originalList.slice();
+        } else {
+            fixedFriendList = [];
+            const used = new Set();
+            while (fixedFriendList.length < 3) {
+                const idx = Math.floor(Math.random() * originalList.length);
+                if (!used.has(idx)) {
+                    used.add(idx);
+                    fixedFriendList.push(originalList[idx]);
+                }
+            }
+        }
+    }
     function renderDynamicList(tabIdx = 0) {
         const feedLeft = document.getElementById('feed-left');
         if (!feedLeft || !window.dynamicList) return;
@@ -107,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
         feedTabs[2].addEventListener('click', function () {
             feedTabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
-            window.dynamicList = originalList.slice();
+            window.dynamicList = fixedFriendList || [];
             currentTab = 2;
             renderDynamicList(currentTab);
         });
@@ -116,9 +133,19 @@ document.addEventListener('DOMContentLoaded', function () {
         feedTabs[3].addEventListener('click', function () {
             feedTabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
-            window.dynamicList = originalList.slice();
+            // 生成所有唯一话题标签
+            const allList = originalList.slice();
+            const hashtags = Array.from(new Set(allList.map(item => item.hashtag).filter(Boolean)));
+            // 渲染标签区+动态内容
+            let tagHtml = '';
+            if (hashtags.length > 0) {
+                tagHtml = `<div class="topic-tags" style="margin-bottom:16px;">` +
+                    hashtags.map(tag => `<span class="topic-tag" style="display:inline-block;cursor:pointer;background:#ffe4ef;color:#e6004c;padding:4px 12px;border-radius:16px;margin-right:8px;margin-bottom:8px;">${tag}</span>`).join('') +
+                    `</div>`;
+            }
+            window.dynamicList = allList;
             currentTab = 3;
-            renderDynamicList(currentTab);
+            renderTopicTab(allList, tagHtml, hashtags);
         });
     }
     renderDynamicList(currentTab);
@@ -448,6 +475,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // 导航栏"关注"点击等同于feed-tabs好友动态，并同步高亮
+    const navFollow = navList[2]; // 第三个是关注
+    if (navFollow && feedTabs[2]) {
+        navFollow.addEventListener('click', function(e) {
+            e.preventDefault();
+            navList.forEach(a => a.classList.remove('active'));
+            navFollow.classList.add('active');
+            feedTabs[2].click();
+        });
+    }
+
     // 顶部登录/注册按钮与退出登录切换
     function renderHeaderAuthBtn() {
         const headerActions = document.querySelector('.header-actions');
@@ -492,6 +530,83 @@ document.addEventListener('DOMContentLoaded', function () {
             renderHeaderAuthBtn();
         }
     });
+
+    function renderTopicTab(list, tagHtml, hashtags) {
+        const feedLeft = document.getElementById('feed-left');
+        if (!feedLeft) return;
+        feedLeft.innerHTML = tagHtml + list.map(item => `
+            <div class="dynamic-card" data-id="${item.id}" style="cursor:pointer;">
+                <div class="dynamic-header">
+                    <div class="user-avatar">${item.user.avatar}</div>
+                    <div class="user-info">
+                        <div class="username">${item.user.name}</div>
+                        <div class="timestamp">${item.time} · ${item.user.college}</div>
+                    </div>
+                </div>
+                <div class="dynamic-content">
+                    <div class="dynamic-text">
+                        ${item.text}
+                        ${item.hashtag ? `<span class='hashtag'>${item.hashtag}</span>` : ''}
+                    </div>
+                    ${item.image ? `<div class='dynamic-image'><img src='${item.image}' alt='动态图片'></div>` : ''}
+                </div>
+                <div class="dynamic-actions">
+                    <div class="action-btn like-btn${item.liked ? ' liked' : ''}">
+                        <span class="like-icon">${item.liked ? `<svg viewBox='0 0 24 24' width='20' height='20' fill='#e6004c' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>` : `<svg viewBox='0 0 24 24' width='20' height='20' fill='none' stroke='#e6004c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21C12 21 4 13.36 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.36 16 21 16 21H12Z'></path></svg>`}</span>
+                        <span class="count">${item.like}</span>
+                    </div>
+                    <div class="action-btn">
+                        <span>💬</span>
+                        <span class="count">${item.comment}</span>
+                    </div>
+                    <div class="action-btn">
+                        <span>↗️</span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        // 绑定标签点击事件
+        feedLeft.querySelectorAll('.topic-tag').forEach(tagEl => {
+            tagEl.addEventListener('click', function(e) {
+                const tag = this.textContent;
+                const filtered = originalList.filter(item => item.hashtag && item.hashtag.includes(tag));
+                renderTopicTab(filtered, tagHtml, hashtags);
+            });
+        });
+        // 重新绑定动态卡片内的事件（如点赞、跳转等）
+        feedLeft.querySelectorAll('.dynamic-card').forEach((card, idx) => {
+            card.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                window.location.href = `dynamic_detail.html?id=${id}`;
+            });
+            card.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+            const userAvatar = card.querySelector('.user-avatar');
+            if (userAvatar) {
+                userAvatar.style.cursor = 'pointer';
+                userAvatar.title = '点击查看用户主页';
+                userAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    window.location.href = 'user.html';
+                });
+            }
+            const likeBtn = card.querySelector('.like-btn');
+            if (likeBtn) {
+                likeBtn.addEventListener('click', function() {
+                    const item = list[idx];
+                    item.liked = !item.liked;
+                    item.like += item.liked ? 1 : -1;
+                    const likeState = JSON.parse(localStorage.getItem('likeState') || '{}');
+                    likeState[item.id] = { liked: item.liked, like: item.like };
+                    localStorage.setItem('likeState', JSON.stringify(likeState));
+                    renderTopicTab(list, tagHtml, hashtags);
+                });
+            }
+        });
+    }
 });
 
 
