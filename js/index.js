@@ -55,16 +55,25 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // 主题切换功能
     const themeToggle = document.getElementById('theme-toggle');
+    function updateThemeIcon() {
+        if (document.body.classList.contains('dark-mode')) {
+            themeToggle.textContent = '☀️';
+        } else {
+            themeToggle.textContent = '🌙';
+        }
+    }
     if (themeToggle) {
         themeToggle.addEventListener('click', function () {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            updateThemeIcon();
         });
 
         // 初始化主题
         if (localStorage.getItem('darkMode') === 'true') {
             document.body.classList.add('dark-mode');
         }
+        updateThemeIcon();
     }
 
     // 注册表单校验
