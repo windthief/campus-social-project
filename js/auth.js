@@ -44,7 +44,17 @@ document.addEventListener('DOMContentLoaded', function () {
     if (loginForm) {
         loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            // 模拟登录成功
+            // 模拟登录成功，写入localStorage
+            const user = {
+                id: '1',
+                name: '张同学',
+                avatar: '张',
+                nickname: '',
+                college: '计算机学院'
+            };
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            // 跳转
             alert('登录成功！将跳转到个人主页');
             window.location.href = 'personal.html';
         });

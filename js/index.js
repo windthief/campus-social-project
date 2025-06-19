@@ -58,6 +58,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     e.stopPropagation();
                 });
             });
+            // 为user-avatar添加跳转user.html事件
+            const userAvatar = card.querySelector('.user-avatar');
+            if (userAvatar) {
+                userAvatar.style.cursor = 'pointer';
+                userAvatar.title = '点击查看用户主页';
+                userAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    window.location.href = 'user.html';
+                });
+            }
             // 点赞交互
             const likeBtn = card.querySelector('.like-btn');
             if (likeBtn) {
@@ -345,6 +355,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     e.stopPropagation();
                 });
             });
+            // 为user-avatar添加跳转user.html事件
+            const userAvatar = card.querySelector('.user-avatar');
+            if (userAvatar) {
+                userAvatar.style.cursor = 'pointer';
+                userAvatar.title = '点击查看用户主页';
+                userAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    window.location.href = 'user.html';
+                });
+            }
             // 点赞交互
             const likeBtn = card.querySelector('.like-btn');
             if (likeBtn) {
@@ -362,6 +382,116 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     renderDynamicList();
+
+    // 首页右侧user-info-card渲染
+    function renderUserInfoCard() {
+        const card = document.querySelector('.user-info-card');
+        if (!card) return;
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (isLoggedIn && user) {
+            card.innerHTML = `
+                <div class="sidebar-title">👤 我的信息</div>
+                <div class="user-card">
+                    <div class="user-avatar-large">${user.avatar || (user.name ? user.name.charAt(0) : '张')}</div>
+                    <h3 class="user-name">${user.name || '张同学'}</h3>
+                </div>
+            `;
+        } else {
+            card.innerHTML = `
+                <div class="sidebar-title">👤 我的信息</div>
+                <div class="user-card">
+                    <div class="user-avatar-large">访</div>
+                    <h3 class="user-name">游客用户</h3>
+                    <p class="user-status">点击登录获取完整体验</p>
+                    <a href="login.html" class="btn btn-primary" style="width: 100%; margin-top: 15px;">登录/注册</a>
+                </div>
+            `;
+        }
+        // 渲染后为sidebar-title绑定跳转
+        const userInfoTitle = card.querySelector('.sidebar-title');
+        if (userInfoTitle) {
+            userInfoTitle.style.cursor = 'pointer';
+            userInfoTitle.title = '点击进入个人主页';
+            userInfoTitle.onclick = function() {
+                window.location.href = 'personal.html';
+            };
+        }
+    }
+    // 页面加载和localStorage变化时都渲染
+    renderUserInfoCard();
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'isLoggedIn' || e.key === 'currentUser') {
+            renderUserInfoCard();
+        }
+    });
+
+    // 导航栏"热点"点击等同于feed-tabs热点推荐，并同步高亮
+    const navList = document.querySelectorAll('nav ul li a');
+    const navHot = navList[1]; // 第二个是热点
+    const navHome = navList[0]; // 第一个是首页
+    if (navHot && feedTabs[1]) {
+        navHot.addEventListener('click', function(e) {
+            e.preventDefault();
+            // 导航高亮切换
+            navList.forEach(a => a.classList.remove('active'));
+            navHot.classList.add('active');
+            // feed-tabs联动
+            feedTabs[1].click();
+        });
+    }
+    // 首页按钮点击时高亮
+    if (navHome) {
+        navHome.addEventListener('click', function() {
+            navList.forEach(a => a.classList.remove('active'));
+            navHome.classList.add('active');
+        });
+    }
+
+    // 顶部登录/注册按钮与退出登录切换
+    function renderHeaderAuthBtn() {
+        const headerActions = document.querySelector('.header-actions');
+        if (!headerActions) return;
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+            headerActions.querySelectorAll('.btn-outline, .btn-primary').forEach(btn => btn.remove());
+            if (!headerActions.querySelector('.btn-logout')) {
+                const logoutBtn = document.createElement('button');
+                logoutBtn.className = 'btn btn-outline btn-logout';
+                logoutBtn.textContent = '退出登录';
+                logoutBtn.style.marginLeft = '10px';
+                logoutBtn.onclick = function() {
+                    localStorage.setItem('isLoggedIn', 'false');
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                };
+                headerActions.appendChild(logoutBtn);
+            }
+        } else {
+            // 恢复登录/注册按钮
+            headerActions.querySelectorAll('.btn-logout').forEach(btn => btn.remove());
+            if (!headerActions.querySelector('.btn-outline')) {
+                const loginA = document.createElement('a');
+                loginA.className = 'btn btn-outline';
+                loginA.href = 'login.html';
+                loginA.textContent = '登录';
+                headerActions.appendChild(loginA);
+            }
+            if (!headerActions.querySelector('.btn-primary')) {
+                const regA = document.createElement('a');
+                regA.className = 'btn btn-primary';
+                regA.href = 'register.html';
+                regA.textContent = '注册';
+                headerActions.appendChild(regA);
+            }
+        }
+    }
+    renderHeaderAuthBtn();
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'isLoggedIn' || e.key === 'currentUser') {
+            renderHeaderAuthBtn();
+        }
+    });
 });
 
 

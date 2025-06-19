@@ -32,9 +32,24 @@
     gap: 30px;
 }
 
+.feed-right {
+    position: relative;
+}
+
+@media (min-width: 901px) {
+    .feed-right {
+        position: sticky;
+        top: 40px;
+        align-self: flex-start;
+        height: fit-content;
+    }
+}
+
 @media (max-width: 900px) {
-    .feed-container {
-        grid-template-columns: 1fr;
+    .feed-right {
+        position: static !important;
+        top: auto !important;
+        height: auto !important;
     }
 }
 
