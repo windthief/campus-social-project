@@ -14,17 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 登录/注册状态切换
     if (document.querySelector('.auth-switch')) {
         const authSwitch = document.querySelector('.auth-switch a');
-        authSwitch.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.getElementById('login-form').classList.toggle('hidden');
-            document.getElementById('register-form').classList.toggle('hidden');
 
-            if (this.textContent.includes('注册')) {
-                this.textContent = '已有账号？立即登录';
-            } else {
-                this.textContent = '没有账号？立即注册';
-            }
-        });
     }
 
     // 处理用户头像显示

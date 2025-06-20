@@ -1,4 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // 表单切换功能
+    let isLoginVisible = true;
+    const toggleAuthBtn = document.getElementById('toggle-auth-btn');
+    const switchLink = document.getElementById('switch-link');
+    const switchText = document.getElementById('switch-text');
+    const authTitle = document.getElementById('auth-title');
+
+    function toggleForms() {
+        const loginForm1 = document.getElementById('login-form');
+        const registerForm1 = document.getElementById('register-form');
+
+        if (isLoginVisible) {
+            // 切换到注册表单
+            loginForm1.classList.add('hidden');
+            registerForm1.classList.remove('hidden');
+            authTitle.textContent = '创建新账号';
+            switchText.textContent = '已有账号？';
+            switchLink.textContent = '立即登录';
+        } else {
+            // 切换到登录表单
+            registerForm1.classList.add('hidden');
+            loginForm1.classList.remove('hidden');
+            authTitle.textContent = '登录你的账号';
+            switchText.textContent = '没有账号？';
+            switchLink.textContent = '立即注册';
+        }
+        isLoginVisible = !isLoginVisible;
+    }
     // 密码可见性切换
     const togglePasswordButtons = document.querySelectorAll('.toggle-password');
     togglePasswordButtons.forEach(button => {
@@ -57,30 +85,48 @@ document.addEventListener('DOMContentLoaded', function () {
             strengthText.textContent = '密码强度: ' + text;
         });
 
-        // 头像上传预览
-        const chooseAvatarBtn = document.getElementById('choose-avatar');
+        // 头像上传功能实现
         const avatarUpload = document.getElementById('avatar-upload');
         const avatarPreview = document.getElementById('avatar-preview');
+        const chooseAvatarBtn = document.getElementById('choose-avatar');
 
-        chooseAvatarBtn.addEventListener('click', function () {
-            avatarUpload.click();
-        });
+        if (chooseAvatarBtn) {
+            chooseAvatarBtn.addEventListener('click', function () {
+                avatarUpload.click();
+            });
+        }
 
-        avatarUpload.addEventListener('change', function () {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    // 将预览区域设置为上传的图片
-                    avatarPreview.style.backgroundImage = `url(${e.target.result})`;
-                    avatarPreview.style.backgroundSize = 'cover';
-                    avatarPreview.style.backgroundPosition = 'center';
-                    avatarPreview.textContent = '';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+        if (avatarUpload) {
+            avatarUpload.addEventListener('change', function () {
+                const file = this.files[0];
+                if (file) {
+                    if (file.size > 2 * 1024 * 1024) {
+                        showError('avatar-preview', '图片大小不能超过2MB');
+                        return;
+                    }
 
+                    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                    if (!validTypes.includes(file.type)) {
+                        showError('avatar-preview', '仅支持 JPG, PNG, GIF 或 WebP 格式的图片');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        // 清除文本内容，显示图片
+                        avatarPreview.innerHTML = '';
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = "用户头像";
+                        img.style.width = "100%";
+                        img.style.height = "100%";
+                        img.style.objectFit = "cover";
+                        avatarPreview.appendChild(img);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
         registerForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -95,6 +141,17 @@ document.addEventListener('DOMContentLoaded', function () {
             if (password.length < 6) {
                 alert('密码长度至少需要6位！');
                 return;
+            }
+            // 个人简介验证
+            if (bio.length > 200) {
+                showError('bio', '个人简介不能超过200字');
+                isValid = false;
+            }
+
+            // 头像验证
+            if (!avatarUpload.files[0]) {
+                showError('avatar-preview', '请上传头像');
+                isValid = false;
             }
 
             // 模拟注册成功
