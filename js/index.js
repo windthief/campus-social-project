@@ -692,6 +692,24 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // 管理员点击右侧信息卡跳转到admin.html
+    const userInfoCard = document.querySelector('.sidebar-card.user-info-card');
+    if (userInfoCard) {
+        userInfoCard.style.cursor = 'pointer';
+        userInfoCard.title = '点击进入个人主页/管理后台';
+        userInfoCard.addEventListener('click', function () {
+            let user = null;
+            try {
+                user = JSON.parse(localStorage.getItem('currentUser'));
+            } catch {}
+            if (user && user.isAdmin) {
+                window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'personal.html';
+            }
+        });
+    }
 });
 
 

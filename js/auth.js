@@ -165,7 +165,28 @@ document.addEventListener('DOMContentLoaded', function () {
     if (loginForm) {
         loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            // 模拟登录成功，写入localStorage
+            // 获取输入的学号和密码
+            const studentId = document.getElementById('student-id').value.trim();
+            const password = document.getElementById('password').value;
+            // 判断是否为管理员
+            if (studentId === '123456' && password === '123456') {
+                // 管理员登录
+                const adminUser = {
+                    id: 'admin',
+                    name: '管理员',
+                    isAdmin: true,
+                    studentId: '123456',
+                    avatar: '管',
+                    nickname: '超级管理员',
+                    college: '系统',
+                };
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', JSON.stringify(adminUser));
+                alert('管理员登录成功！将跳转到管理后台');
+                window.location.href = 'admin.html';
+                return;
+            }
+            // 普通用户登录
             const user = {
                 id: '1',
                 name: '张同学',
@@ -175,7 +196,6 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('currentUser', JSON.stringify(user));
-            // 跳转
             alert('登录成功！将跳转到个人主页');
             window.location.href = 'personal.html';
         });
