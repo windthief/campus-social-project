@@ -300,8 +300,8 @@
 
 .feed-right {
     position: sticky;
-    top: 70px;
-    /* 距离顶部20px */
+    top: 80px;
+    /* 距离顶部80px */
     align-self: flex-start;
     /* 保持自身高度 */
     height: fit-content;

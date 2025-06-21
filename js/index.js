@@ -1,6 +1,70 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    const backToTop = document.getElementById('back-to-top');
+    const refresh = document.getElementById('refresh');
+    const feedback = document.getElementById('feedback');
+    const customerService = document.getElementById('customer-service');
+    const toast = document.getElementById('toast');
+    const feedbackForm = document.getElementById('feedbackForm');
 
+    // 返回顶部功能
+    backToTop.addEventListener('click', function () {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+        // 添加跳动效果
+        this.classList.add('bounce');
+        setTimeout(() => {
+            this.classList.remove('bounce');
+        }, 800);
+    });
+
+    // 刷新按钮功能
+    refresh.addEventListener('click', function () {
+        // 添加跳动效果
+        this.classList.add('bounce');
+        setTimeout(() => {
+            this.classList.remove('bounce');
+        }, 800);
+
+        // 显示消息提示
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    });
+
+    // 反馈按钮功能
+    feedback.addEventListener('click', function () {
+        // 切换反馈表单的显示
+        feedbackForm.classList.toggle('show');
+    });
+
+    // 客服按钮功能
+    customerService.addEventListener('click', function () {
+        alert('客服功能即将开放，请稍后再试');
+    });
+
+    // 滚动时显示/隐藏返回顶部按钮
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('highlight');
+        } else {
+            backToTop.classList.remove('highlight');
+        }
+    });
+
+    // 监听窗口大小变化 - 确保在小窗口时工具栏隐藏
+    window.addEventListener('resize', function () {
+        // 窗口宽度小于768px时隐藏工具栏
+        if (window.innerWidth < 768) {
+            document.querySelector('.b-toolbar').style.display = 'none';
+        } else {
+            document.querySelector('.b-toolbar').style.display = 'flex';
+        }
+    });
 
     // 切换标签页
     const feedTabs = document.querySelectorAll('.feed-tab');
@@ -65,13 +129,13 @@ document.addEventListener('DOMContentLoaded', function () {
         `).join('');
         // 添加点击事件
         feedLeft.querySelectorAll('.dynamic-card').forEach((card, idx) => {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 window.location.href = `dynamic_detail.html?id=${id}`;
             });
             // 阻止action-btn点击冒泡
             card.querySelectorAll('.action-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
+                btn.addEventListener('click', function (e) {
                     e.stopPropagation();
                 });
             });
@@ -80,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (userAvatar) {
                 userAvatar.style.cursor = 'pointer';
                 userAvatar.title = '点击查看用户主页';
-                userAvatar.addEventListener('click', function(e) {
+                userAvatar.addEventListener('click', function (e) {
                     e.stopPropagation();
                     window.location.href = 'user.html';
                 });
@@ -88,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 点赞交互
             const likeBtn = card.querySelector('.like-btn');
             if (likeBtn) {
-                likeBtn.addEventListener('click', function() {
+                likeBtn.addEventListener('click', function () {
                     const item = window.dynamicList[idx];
                     item.liked = !item.liked;
                     item.like += item.liked ? 1 : -1;
@@ -379,13 +443,13 @@ document.addEventListener('DOMContentLoaded', function () {
         `).join('');
         // 添加点击事件
         feedLeft.querySelectorAll('.dynamic-card').forEach((card, idx) => {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 window.location.href = `dynamic_detail.html?id=${id}`;
             });
             // 阻止action-btn点击冒泡
             card.querySelectorAll('.action-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
+                btn.addEventListener('click', function (e) {
                     e.stopPropagation();
                 });
             });
@@ -394,7 +458,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (userAvatar) {
                 userAvatar.style.cursor = 'pointer';
                 userAvatar.title = '点击查看用户主页';
-                userAvatar.addEventListener('click', function(e) {
+                userAvatar.addEventListener('click', function (e) {
                     e.stopPropagation();
                     window.location.href = 'user.html';
                 });
@@ -402,7 +466,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 点赞交互
             const likeBtn = card.querySelector('.like-btn');
             if (likeBtn) {
-                likeBtn.addEventListener('click', function() {
+                likeBtn.addEventListener('click', function () {
                     const item = window.dynamicList[idx];
                     item.liked = !item.liked;
                     item.like += item.liked ? 1 : -1;
@@ -447,14 +511,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (userInfoTitle) {
             userInfoTitle.style.cursor = 'pointer';
             userInfoTitle.title = '点击进入个人主页';
-            userInfoTitle.onclick = function() {
+            userInfoTitle.onclick = function () {
                 window.location.href = 'personal.html';
             };
         }
     }
     // 页面加载和localStorage变化时都渲染
     renderUserInfoCard();
-    window.addEventListener('storage', function(e) {
+    window.addEventListener('storage', function (e) {
         if (e.key === 'isLoggedIn' || e.key === 'currentUser') {
             renderUserInfoCard();
         }
@@ -465,7 +529,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const navHot = navList[1]; // 第二个是热点
     const navHome = navList[0]; // 第一个是首页
     if (navHot && feedTabs[1]) {
-        navHot.addEventListener('click', function(e) {
+        navHot.addEventListener('click', function (e) {
             e.preventDefault();
             // 导航高亮切换
             navList.forEach(a => a.classList.remove('active'));
@@ -476,7 +540,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // 首页按钮点击时高亮
     if (navHome) {
-        navHome.addEventListener('click', function() {
+        navHome.addEventListener('click', function () {
             navList.forEach(a => a.classList.remove('active'));
             navHome.classList.add('active');
         });
@@ -485,7 +549,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 导航栏"关注"点击等同于feed-tabs好友动态，并同步高亮
     const navFollow = navList[2]; // 第三个是关注
     if (navFollow && feedTabs[2]) {
-        navFollow.addEventListener('click', function(e) {
+        navFollow.addEventListener('click', function (e) {
             e.preventDefault();
             navList.forEach(a => a.classList.remove('active'));
             navFollow.classList.add('active');
@@ -505,7 +569,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 logoutBtn.className = 'btn btn-outline btn-logout';
                 logoutBtn.textContent = '退出登录';
                 logoutBtn.style.marginLeft = '10px';
-                logoutBtn.onclick = function() {
+                logoutBtn.onclick = function () {
                     localStorage.setItem('isLoggedIn', 'false');
                     localStorage.removeItem('currentUser');
                     window.location.reload();
@@ -532,7 +596,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     renderHeaderAuthBtn();
-    window.addEventListener('storage', function(e) {
+    window.addEventListener('storage', function (e) {
         if (e.key === 'isLoggedIn' || e.key === 'currentUser') {
             renderHeaderAuthBtn();
         }
@@ -574,7 +638,7 @@ document.addEventListener('DOMContentLoaded', function () {
         `).join('');
         // 绑定标签点击事件
         feedLeft.querySelectorAll('.topic-tag').forEach(tagEl => {
-            tagEl.addEventListener('click', function(e) {
+            tagEl.addEventListener('click', function (e) {
                 const tag = this.textContent;
                 const filtered = originalList.filter(item => item.hashtag && item.hashtag.includes(tag));
                 renderTopicTab(filtered, tagHtml, hashtags);
@@ -582,12 +646,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         // 重新绑定动态卡片内的事件（如点赞、跳转等）
         feedLeft.querySelectorAll('.dynamic-card').forEach((card, idx) => {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 window.location.href = `dynamic_detail.html?id=${id}`;
             });
             card.querySelectorAll('.action-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
+                btn.addEventListener('click', function (e) {
                     e.stopPropagation();
                 });
             });
@@ -595,14 +659,14 @@ document.addEventListener('DOMContentLoaded', function () {
             if (userAvatar) {
                 userAvatar.style.cursor = 'pointer';
                 userAvatar.title = '点击查看用户主页';
-                userAvatar.addEventListener('click', function(e) {
+                userAvatar.addEventListener('click', function (e) {
                     e.stopPropagation();
                     window.location.href = 'user.html';
                 });
             }
             const likeBtn = card.querySelector('.like-btn');
             if (likeBtn) {
-                likeBtn.addEventListener('click', function() {
+                likeBtn.addEventListener('click', function () {
                     const item = list[idx];
                     item.liked = !item.liked;
                     item.like += item.liked ? 1 : -1;
@@ -618,7 +682,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 发布按钮登录校验
     const postBtn = document.querySelector('.feed-controls .btn-primary[href="post.html"]');
     if (postBtn) {
-        postBtn.addEventListener('click', function(e) {
+        postBtn.addEventListener('click', function (e) {
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             if (!isLoggedIn) {
                 e.preventDefault();
