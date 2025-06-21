@@ -41,6 +41,24 @@ document.addEventListener('DOMContentLoaded', function () {
             countElement.textContent = count;
         });
     });
+
+    const footerColumns = document.querySelectorAll('.footer-column.dropdown');
+
+    footerColumns.forEach(column => {
+        // 添加鼠标悬停效果
+        column.addEventListener('mouseenter', function () {
+            this.classList.add('hovering');
+        });
+
+        column.addEventListener('mouseleave', function () {
+            this.classList.remove('hovering');
+        });
+
+        // 触摸设备支持
+        column.addEventListener('touchstart', function () {
+            this.classList.toggle('hovering');
+        });
+    });
 });
 
 function generateColorFromInitials(name) {

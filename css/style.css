@@ -374,3 +374,131 @@ body.dark-mode .form-control {
     background-color: var(--primary-color);
     color: white;
 }
+
+/* 在底部导航栏样式中添加 */
+.footer-column {
+    position: relative;
+}
+
+.footer-column h3 {
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.footer-column h3:hover {
+    color: #fff;
+}
+
+/* 微妙的悬停提示器 */
+.footer-column h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: width 0.3s ease;
+}
+
+.footer-column:hover h3::after {
+    width: 80px;
+}
+
+/* 下拉菜单效果 */
+.footer-links {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+}
+
+.footer-column:hover .footer-links {
+    max-height: 300px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 链接项动画效果 */
+.footer-links li {
+    transform: translateX(-10px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.footer-column:hover .footer-links li {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* 延迟效果 */
+.footer-links li:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.footer-links li:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.footer-links li:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.footer-links li:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+/* 链接悬停效果 */
+.footer-links a {
+    display: block;
+    padding: 8px 0;
+    position: relative;
+    transition: all 0.3s ease;
+    color: #d0d0d0;
+    /* 浅灰色字体 */
+}
+
+.footer-links a:hover {
+    color: #fff;
+    padding-left: 8px;
+}
+
+.footer-links a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 4px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover::before {
+    opacity: 1;
+}
+
+/* 在移动设备上保持展开状态 */
+@media (max-width: 768px) {
+    .footer-links {
+        max-height: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .footer-links li {
+        transform: none !important;
+        opacity: 1 !important;
+    }
+
+    .footer-column h3::after {
+        display: none;
+    }
+}
