@@ -1,4 +1,55 @@
 document.addEventListener('DOMContentLoaded', function () {
+    //判断是否登录
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+        //初始化个人信息
+        const name = localStorage.getItem('name');
+        document.querySelector('.user-avatar').textContent = name.charAt(0);
+        document.querySelector('.username').textContent = name;
+        document.querySelector('.profile-name').textContent = name;
+        document.querySelector('.profile-id').textContent = `学号: ${localStorage.getItem('studentId')}`;
+        document.querySelector('.profile-bio').textContent = localStorage.getItem('bio');
+
+        //初始化头像
+        const avatarDiv = document.querySelector('.profile-avatar');
+        const avatarBase64 = localStorage.getItem('avatar');
+
+        // 判断头像是否为空
+        if (avatarBase64 && avatarBase64.trim() !== '') {
+            avatarDiv.textContent = '';
+            const avatarImage = document.createElement('img');
+            avatarImage.src = avatarBase64;
+            avatarImage.alt = '头像';
+
+            avatarImage.style.width = '100px';
+            avatarImage.style.height = '100px';
+            avatarImage.style.borderRadius = '50%'; // 圆形头像
+            avatarImage.style.objectFit = "cover";
+            avatarDiv.appendChild(avatarImage);
+        }
+        else {
+            document.querySelector('.profile-avatar').textContent = name.charAt(0);
+        }
+    }
+    else {
+        const avatarDiv = document.querySelector('.profile-avatar');
+
+        // 清除头像显示
+        const avatarImage = avatarDiv.querySelector('img');
+        if (avatarImage) {
+            avatarImage.remove();
+        }
+    }
+
+    // 如果没有登录，阻止跳转并显示提示
+    const editButton = document.getElementById("editButton");
+    // 给按钮添加点击事件
+    editButton.addEventListener("click", function (event) {
+        if (localStorage.getItem("isLoggedIn") === "false") {
+            event.preventDefault();  // 阻止默认跳转行为
+            alert("请先登录！");
+        }
+    });
+
     // 个人主页选项卡切换
     const profileTabs = document.querySelectorAll('.profile-tab');
     profileTabs.forEach(tab => {

@@ -122,6 +122,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         img.style.height = "100%";
                         img.style.objectFit = "cover";
                         avatarPreview.appendChild(img);
+
+                        const avatarBase64 = e.target.result;
+                        localStorage.setItem('avatar', avatarBase64);
                     }
                     reader.readAsDataURL(file);
                 }
@@ -149,10 +152,30 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // 头像验证
-            if (!avatarUpload.files[0]) {
-                showError('avatar-preview', '请上传头像');
-                isValid = false;
-            }
+            // if (!avatarUpload.files[0]) {
+            //     showError('avatar-preview', '请上传头像');
+            //     isValid = false;
+            // }
+
+            // 获取表单输入的值
+            const avatar = document.getElementById('avatar-preview').innerText; // 头像的选择数据（简单模拟）
+            const studentId = document.getElementById('reg-student-id').value;
+            const name = document.getElementById('reg-name').value;
+            // const password = document.getElementById('reg-password').value;
+            const bbio = document.getElementById('bio').value;
+            // const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const nickname = document.getElementById('nickname').value;
+            const college = document.getElementById('college').value;
+
+            // 将数据保存到 localStorage
+            
+            localStorage.setItem('studentId', studentId);
+            localStorage.setItem('name', name);
+            localStorage.setItem('password', password);
+            localStorage.setItem('bio', bbio);
+            localStorage.setItem('confirmPassword', confirmPassword);
+            localStorage.setItem('nickname', nickname);
+            localStorage.setItem('college', college);
 
             // 模拟注册成功
             alert('注册成功！将跳转到登录页面');
@@ -165,6 +188,23 @@ document.addEventListener('DOMContentLoaded', function () {
     if (loginForm) {
         loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
+
+            //判断是否已经注册
+            const studentId = localStorage.getItem('studentId');
+            const password = localStorage.getItem('password');
+
+            const inputStudentId = document.getElementById('student-id').value;
+            const inputPassword = document.getElementById('password').value;
+
+            if (studentId != inputStudentId) {
+                alert('该学号未注册！');
+                return;
+            }
+            else if (password != inputPassword) {
+                alert('密码不正确！');
+                return;
+            }
+
             // 模拟登录成功，写入localStorage
             const user = {
                 id: '1',
