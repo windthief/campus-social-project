@@ -26,6 +26,71 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.profile-avatar').textContent = localStorage.getItem('name').charAt(0);
         }
     }
+    const backToTop = document.getElementById('back-to-top');
+    const refresh = document.getElementById('refresh');
+    const feedback = document.getElementById('feedback');
+    const customerService = document.getElementById('customer-service');
+    const toast = document.getElementById('toast');
+    const feedbackForm = document.getElementById('feedbackForm');
+
+    // 返回顶部功能
+    backToTop.addEventListener('click', function () {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+        // 添加跳动效果
+        this.classList.add('bounce');
+        setTimeout(() => {
+            this.classList.remove('bounce');
+        }, 800);
+    });
+
+    // 刷新按钮功能
+    refresh.addEventListener('click', function () {
+        // 添加跳动效果
+        this.classList.add('bounce');
+        setTimeout(() => {
+            this.classList.remove('bounce');
+        }, 800);
+
+        // 显示消息提示
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    });
+
+    // 反馈按钮功能
+    feedback.addEventListener('click', function () {
+        // 切换反馈表单的显示
+        feedbackForm.classList.toggle('show');
+    });
+
+    // 客服按钮功能
+    customerService.addEventListener('click', function () {
+        alert('客服功能即将开放，请稍后再试');
+    });
+
+    // 滚动时显示/隐藏返回顶部按钮
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('highlight');
+        } else {
+            backToTop.classList.remove('highlight');
+        }
+    });
+
+    // 监听窗口大小变化 - 确保在小窗口时工具栏隐藏
+    window.addEventListener('resize', function () {
+        // 窗口宽度小于768px时隐藏工具栏
+        if (window.innerWidth < 768) {
+            document.querySelector('.b-toolbar').style.display = 'none';
+        } else {
+            document.querySelector('.b-toolbar').style.display = 'flex';
+        }
+    });
 
     // 切换标签页
     const feedTabs = document.querySelectorAll('.feed-tab');
@@ -650,6 +715,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (confirm('发布动态需要登录，是否前往登录？')) {
                     window.location.href = 'login.html';
                 }
+            }
+        });
+    }
+
+    // 管理员点击右侧信息卡跳转到admin.html
+    const userInfoCard = document.querySelector('.sidebar-card.user-info-card');
+    if (userInfoCard) {
+        userInfoCard.style.cursor = 'pointer';
+        userInfoCard.title = '点击进入个人主页/管理后台';
+        userInfoCard.addEventListener('click', function () {
+            let user = null;
+            try {
+                user = JSON.parse(localStorage.getItem('currentUser'));
+            } catch {}
+            if (user && user.isAdmin) {
+                window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'personal.html';
             }
         });
     }
