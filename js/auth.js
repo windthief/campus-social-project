@@ -188,7 +188,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (loginForm) {
         loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
-<<<<<<< HEAD
 
             //判断是否已经注册
             const studentId = localStorage.getItem('studentId');
@@ -206,13 +205,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // 模拟登录成功，写入localStorage
-=======
-            // 获取输入的学号和密码
-            const studentId = document.getElementById('student-id').value.trim();
-            const password = document.getElementById('password').value;
+
             // 判断是否为管理员
-            if (studentId === '123456' && password === '123456') {
+            if (inputStudentId === '123456' && inputPassword === '123456') {
                 // 管理员登录
                 const adminUser = {
                     id: 'admin',
@@ -230,7 +225,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             // 普通用户登录
->>>>>>> e14f9362a7b8b4a155bf63117e760e70ab3b8feb
             const user = {
                 id: '1',
                 name: '张同学',
