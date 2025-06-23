@@ -2,29 +2,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.onload = function () {
         //主页用户信息初始化
-        console.log(document.getElementsByClassName('user-name')[0].textContent);
-        document.getElementsByClassName('user-name')[0].textContent = localStorage.getItem('name');
-        
-        //初始化头像
-        const avatarDiv = document.querySelector('.user-avatar-large');
-        const avatarBase64 = localStorage.getItem('avatar');
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            document.getElementsByClassName('user-name')[0].textContent = localStorage.getItem('name');
 
-        // 判断头像是否为空
-        if (avatarBase64 && avatarBase64.trim() !== '') {
-            avatarDiv.textContent = '';
-            const avatarImage = document.createElement('img');
-            avatarImage.src = avatarBase64;
-            avatarImage.alt = '头像';
+            //初始化头像
+            const avatarDiv = document.querySelector('.user-avatar-large');
+            const avatarBase64 = localStorage.getItem('avatar');
 
-            avatarImage.style.width = '100px';
-            avatarImage.style.height = '100px';
-            avatarImage.style.borderRadius = '50%'; // 圆形头像
-            avatarImage.style.objectFit = "cover";
-            avatarDiv.appendChild(avatarImage);
+            // 判断头像是否为空
+            if (avatarBase64 && avatarBase64.trim() !== '') {
+                avatarDiv.textContent = '';
+                const avatarImage = document.createElement('img');
+                avatarImage.src = avatarBase64;
+                avatarImage.alt = '头像';
+
+                avatarImage.style.width = '100px';
+                avatarImage.style.height = '100px';
+                avatarImage.style.borderRadius = '50%'; // 圆形头像
+                avatarImage.style.objectFit = "cover";
+                avatarDiv.appendChild(avatarImage);
+            }
+            else {
+                document.querySelector('.profile-avatar').textContent = localStorage.getItem('name').charAt(0);
+            }
         }
-        else {
-            document.querySelector('.profile-avatar').textContent = localStorage.getItem('name').charAt(0);
-        }
+
     }
     const backToTop = document.getElementById('back-to-top');
     const refresh = document.getElementById('refresh');
@@ -408,6 +410,7 @@ document.addEventListener('DOMContentLoaded', function () {
             hashtag: '#学习日常 #课程设计',
             image: "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'%3E%3Crect fill='%23FFCCD5' width='640' height='480'/%3E%3Ctext fill='%23E6004C' font-family='Arial' font-size='30' x='280' y='240'%3E课程设计展示%3C/text%3E%3C/svg%3E",
             like: 86,
+            liked:false,
             comment: 24,
             extra: '↗️'
         },
@@ -418,6 +421,7 @@ document.addEventListener('DOMContentLoaded', function () {
             hashtag: '',
             image: "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'%3E%3Crect fill='%23B5EAD7' width='640' height='480'/%3E%3Ctext fill='%2300713E' font-family='Arial' font-size='30' x='280' y='240'%3E图书馆风景%3C/text%3E%3C/svg%3E",
             like: 156,
+            liked:false,
             comment: 42,
             extra: '↗️'
         },
@@ -428,6 +432,7 @@ document.addEventListener('DOMContentLoaded', function () {
             hashtag: '#讲座 #产品设计',
             image: '',
             like: 98,
+            liked:false,
             comment: 35,
             extra: '⭐️'
         }
@@ -728,7 +733,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let user = null;
             try {
                 user = JSON.parse(localStorage.getItem('currentUser'));
-            } catch {}
+            } catch { }
             if (user && user.isAdmin) {
                 window.location.href = 'admin.html';
             } else {

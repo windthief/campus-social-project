@@ -116,6 +116,18 @@
     color: white;
 }
 
+.profile-item {
+    display: flex;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    height: 80px;
+    align-items: center;
+    font-weight: bold;
+}
+
 /* 用户卡片组件 */
 .user-card {
     text-align: center;
@@ -311,5 +323,16 @@
     .stat-item {
         min-width: 25%;
         margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-item {
+        flex: 1;
+        min-width: 100px;
+        height: 200px;
+        text-align: left;
+        padding: 30px 5px;
+        font-size: 14px;
     }
 }
