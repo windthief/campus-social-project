@@ -100,10 +100,10 @@ function loadUserData(keyword = '') {
                     </td>
                     <td>
                         <div class="action-btns">
-                            <button class="btn btn-small btn-secondary" data-action="reset" data-id="${user.id}">重置密码</button>
-                            <button class="btn btn-small ${user.isBanned ? 'btn-success' : 'btn-danger'}" data-action="ban" data-id="${user.id}">
-                                ${user.isBanned ? '解封' : '封禁'}
-                            </button>
+                        <button class="btn btn-small btn-secondary" data-action="reset" data-id="${user.id}">重置密码</button>
+                        <button class="btn btn-small ${user.isBanned ? 'btn-success' : 'btn-danger'}" data-action="ban" data-id="${user.id}">
+                            ${user.isBanned ? '解封' : '封禁'}
+                        </button>
                             <button class="btn btn-small ${user.isMuted ? 'btn-success' : 'btn-warning'}" data-action="mute" data-id="${user.id}">
                                 ${user.isMuted ? '解除禁言' : '禁言'}
                             </button>

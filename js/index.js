@@ -709,6 +709,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.location.href = 'personal.html';
             }
         });
+        // sidebar-title点击：未登录弹警告，已登录按原逻辑跳转
+        const sidebarTitle = userInfoCard.querySelector('.sidebar-title');
+        if (sidebarTitle) {
+            sidebarTitle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation(); // 彻底阻止冒泡和后续事件
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                if (!isLoggedIn) {
+                    if (confirm('是否需要登录？')) {
+                        window.location.href = 'login.html';
+                    }
+                    return;
+                }
+                // 已登录时，判断管理员跳转admin.html，否则跳转personal.html
+                let user = null;
+                try {
+                    user = JSON.parse(localStorage.getItem('currentUser'));
+                } catch {}
+                if (user && user.isAdmin) {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'personal.html';
+                }
+            });
+        }
     }
 });
 
