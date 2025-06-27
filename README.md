@@ -1,10 +1,11 @@
 # campus-social-project
-##项目主题：校内社交互动平台
-##主题风格：简约、荔枝红
-##分工：windthief 整体架构设计+用户系统登录注册模块+组件开发
-      RanWater  主页面优化、管理用户实现、动态发布模块
-      green-pepper-1025  个人中心模块
-##完整git提交记录：
+## 项目主题：校内社交互动平台
+## 主题风格：简约、荔枝红
+## 分工：
+## windthief 整体架构设计+用户系统登录注册模块+组件开发
+## RanWater  主页面优化、管理用户实现、动态发布模块
+## green-pepper-1025  个人中心模块
+## 完整git提交记录：
 commit fa94e41e82a9cd4f8793d5bd0fa76214feb1e34c (HEAD -> main, origin/main, origin/HEAD)
 Merge: bc7f5c9 4f0d042
 Author: windthief <2242762553@qq.com>
